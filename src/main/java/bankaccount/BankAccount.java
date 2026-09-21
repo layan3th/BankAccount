@@ -1,33 +1,35 @@
 package bankaccount;
 
+
 public class BankAccount {
-    private double balance;
+	private double balance;
     private NotificationService notificationService;
 
-    public BankAccount(double initialBalance, NotificationService notificationService) {
-        this.balance = initialBalance;
+    public BankAccount(double balance, NotificationService notificationService) {
+        this.balance = balance;
         this.notificationService = notificationService;
-    }
-
-    public void deposit(double amount) {
-        if (amount > 0) {
-            balance += amount;
-            if (notificationService != null) {
-                notificationService.sendNotification("Deposit " + amount + " balance " + balance);
-            }
-        }
-    }
-
-    public void withdraw(double amount) {
-        if (amount > 0 && amount <= balance) {
-            balance -= amount;
-            if (notificationService != null) {
-                notificationService.sendNotification("Withdraw " + amount + " balance " + balance);
-            }
-        }
     }
 
     public double getBalance() {
         return balance;
+    }
+
+    public void deposit(double amount) {
+    if (amount < 0) {
+        throw new IllegalArgumentException("لا يمكن إيداع مبلغ سالب");
+    }
+
+    balance = balance + amount;
+    notificationService.sendMessage(" deposit " + amount);
+
+    }
+
+    public void withdraw(double amount) {
+        if (amount > balance) {
+            notificationService.sendMessage("الرصيد غير كافي");
+            throw new IllegalStateException("الرصيد غير كافي");
+        }
+        balance = balance - amount;
+        notificationService.sendMessage(" withdraw " + amount);
     }
 }

@@ -1,51 +1,63 @@
 package bankaccount;
 
-import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.Test;
+import org.junit.Before;
+import static org.junit.Assert.*;
 
 public class BankAccountNormalTest {
+    private BankAccount account;
+
+    @Before
+
+    public void setUp() {
+
+        NotificationService service = new SmsNotificationService();
+
+        account = new BankAccount(1000, service);
+
+    }
+    
+   @Test
+    public void testDeposit() {
+        account.deposit(500);
+        assertEquals(1500, account.getBalance(), 0.001);
+    }
 
     @Test
-    void testValidDeposit() {
+    public void testWithdraw() {
+        account.withdraw(300);
+        assertEquals(700, account.getBalance(), 0.001);
+    }
+
+    @Test(expected = IllegalStateException.class)
+    public void testWithdraw_notEnoughBalance() {
+        account.withdraw(1001);
+    }
+    @Test
+    public void testValidDeposit() {
         NotificationService service = new SmsNotificationService();
         BankAccount account = new BankAccount(1000, service);
         account.deposit(500);
-        assertEquals(1500, account.getBalance());
+        assertEquals(1500, account.getBalance(),0.001);
     }
 
     @Test
-    void testValidWithdraw() {
+    public void testValidWithdraw() {
         NotificationService service = new SmsNotificationService();
         BankAccount account = new BankAccount(1000, service);
         account.withdraw(300);
-        assertEquals(700, account.getBalance());
+        assertEquals(700, account.getBalance(),0.001);
     }
 
     @Test
-    void testInitialBalance() {
+    public void testInitialBalance() {
         NotificationService service = new SmsNotificationService();
         BankAccount account = new BankAccount(500, service);
-        assertEquals(500, account.getBalance());
+        assertEquals(500, account.getBalance(),0.001);
     }
 
     @Test
-    void testWithdrawMoreThanBalance() {
-        NotificationService service = new SmsNotificationService();
-        BankAccount account = new BankAccount(100, service);
-        account.withdraw(500);
-        assertEquals(100, account.getBalance());
-    }
-
-    @Test
-    void testDepositNegativeAmount() {
-        NotificationService service = new SmsNotificationService();
-        BankAccount account = new BankAccount(200, service);
-        account.deposit(-50);
-        assertTrue(account.getBalance() == 200);
-    }
-
-    @Test
-    void testAccountNotNull() {
+    public void testAccountNotNull() {
         NotificationService service = new SmsNotificationService();
         BankAccount account = new BankAccount(1000, service);
         assertNotNull(account);

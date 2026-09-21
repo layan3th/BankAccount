@@ -1,5 +1,5 @@
 package bankaccount;
 
 public interface NotificationService {
-    void sendNotification(String message);
+    void sendMessage(String message);
 }
