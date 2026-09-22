@@ -16,7 +16,7 @@ public class BankAccount {
 
     public void deposit(double amount) {
     if (amount < 0) {
-        throw new IllegalArgumentException("لا يمكن إيداع مبلغ سالب");
+        throw new IllegalArgumentException(" not amount is not allowed ");
     }
 
     balance = balance + amount;
@@ -26,8 +26,8 @@ public class BankAccount {
 
     public void withdraw(double amount) {
         if (amount > balance) {
-            notificationService.sendMessage("الرصيد غير كافي");
-            throw new IllegalStateException("الرصيد غير كافي");
+            notificationService.sendMessage(" Insufficient balance ");
+            throw new IllegalStateException(" Insufficient balance ");
         }
         balance = balance - amount;
         notificationService.sendMessage(" withdraw " + amount);
